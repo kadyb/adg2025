@@ -4,23 +4,33 @@
 
 <img src="../wyklady/_images/2_polaczenia.png" width="500">
 
-Dane są dwie warstwy punktowe:
+Projekt obejmuje samodzielne napisanie funkcji w środowisku PyQGIS. Głównym celem jest
+wyszukanie najbliższego sąsiada pomiędzy dwiema warstwami punktowymi:
 
 1. `dostawcy.gpkg` (punkty główne).
 2. `odbiorcy.gpkg` (punkty podrzędne).
 
-Napisz funkcję używając wyłącznie PyQGIS, która wykona następujące operacje przestrzenne:
+W zależności od zakresu wykonanych prac, można uzyskać maksymalnie następujące oceny:
 
-1. Dla każdego odbiorcy znajdzie najbliższego dostawcę. W tym
-   celu należy zastosować zagnieżdżoną pętlę.
-2. Stworzy linię między najbliższym odbiorcą a dostawcą i doda
-   do warstwy atrybut z obliczoną odległością.
-3. Skopiuje atrybuty w tabeli od dostawcy do odbiorcy.
+### Ocena dostateczna
 
-Wynikiem działania funkcji powinny być:
-1. Zapisana warstwa liniowa.
-2. Zaktualizowana warstwa `odbiorcy.gpkg`.
+- Wyznaczenie dla każdego odbiorcy najbliższego dostawcy. W tym
+  celu należy zastosować zagnieżdżoną pętlę.
+- Stworzenie linii pomiędzy najbliższym odbiorcą a dostawcą.
+  Do warstwy należy dodać atrybut z obliczoną odległością.
+- Wynikiem operacji będzie zapisana warstwa wektorowa na dysku.
+ 
+### Ocena dobra
 
-### Termin
+- Kod należy przygotować jako skrypt przetwarzania QGIS, w którym
+  użytkownik wskazuje warstwy wejściowe oraz ścieżkę zapisu wyniku.
 
-Projekt zaliczeniowy proszę wysłać do 7 lutego (piątek) na mój adres e-mail: krzysztof.dyba@amu.edu.pl
+### Ocena bardzo dobra
+
+- Skopiowanie atrybutów tabeli z warstwy dostawcy do odbiorcy.
+- Wynikiem operacji będzie zaktualizowana warstwa `odbiorcy.gpkg`.
+- Kod należy przygotować w postaci skryptu przetwarzania QGIS.
+
+## Termin
+
+Projekt zaliczeniowy proszę wysłać do 6 lutego (piątek) na GitHub Classroom.
