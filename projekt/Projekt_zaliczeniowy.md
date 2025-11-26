@@ -33,4 +33,4 @@ W zależności od zakresu wykonanych prac, można uzyskać maksymalnie następuj
 
 ## Termin
 
-Projekt zaliczeniowy proszę wysłać do 6 lutego (piątek) na GitHub Classroom.
+Projekt zaliczeniowy proszę wysłać do 6 lutego 2025 r. (piątek) na GitHub Classroom.
