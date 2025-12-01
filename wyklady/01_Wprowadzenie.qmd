@@ -52,6 +52,8 @@ Kontakt: [krzysztof.dyba\@amu.edu.pl](mailto:krzysztof.dyba@amu.edu.pl){.email}
 :::
 :::::
 
+## Czym jest algorytm? {.center style="text-align: center;"}
+
 ## Algorytm
 
 ::: {.fragment}
@@ -400,7 +402,7 @@ do między innymi:
   - Otoczka wypukła.
 :::
 
-## Przykłady zastosowań
+## Zastosowania
 
 ::: {style="font-size: 75%;"}
 - Zapytania przestrzenne (np. znalezienie punktów na określonym obszarze).
