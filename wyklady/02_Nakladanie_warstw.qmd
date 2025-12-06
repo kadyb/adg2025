@@ -35,13 +35,13 @@ sprawdzenie, w jaki sposób cechy z różnych warstw wpływają na siebie w prze
 ## Zastosowania
 
 - Analizy środowiskowe, np. analiza związku pomiędzy siedliskami gatunków a
-klasami pokrycia terenu
+klasami pokrycia terenu.
 - Zarządzanie kryzysowe, np. analiza obszarów zagrożonych powodzią uwzględniając
-dane o gęstości zaludnienia
+dane o gęstości zaludnienia.
 - Planowanie przestrzenne, np. określanie odpowiednich lokalizacji pod zabudowę
-uwzględniając obszary chronione i aktualną infrastrukturę
+uwzględniając obszary chronione i aktualną infrastrukturę.
 - Analiza rynku, np. powiązanie lokalizacji klientów z danymi demograficznymi
-w celu ukierunkowania sprzedaży do określonej grupy
+w celu ukierunkowania sprzedaży do określonej grupy.
 
 ## Przykład
 
@@ -83,12 +83,12 @@ intersect(admin[admin$woj == "Wielkopolskie"], rzeki)
 
 ## Algorytmy
 
-- Usuwanie (*Erase*, *Difference*)
-- Przecięcie (*Intersect*) / Koniunkcja
-- Złączenie (*Union*) / Alternatywa
-- Różnica symetryczna (*Symmetrical difference*) / Alternatywa rozłączna 
-- Przykrycie (*Update*, *Cover*)
-- Docinanie (*Clip*)
+- Usuwanie (*Erase*, *Difference*).
+- Przecięcie (*Intersect*) / Koniunkcja.
+- Złączenie (*Union*) / Alternatywa.
+- Różnica symetryczna (*Symmetrical difference*) / Alternatywa rozłączna.
+- Przykrycie (*Update*, *Cover*).
+- Docinanie (*Clip*).
 
 ## Usuwanie
 
@@ -355,12 +355,12 @@ plot(result, add = TRUE, cex = 2)
 
 ::::
 
-## Srebrne poligony {.center style="text-align: center;"}
+## Poligony szczątkowe {.center style="text-align: center;"}
 
-## Srebrne poligony
+## Poligony szczątkowe
 
 ::: {.fragment}
-Pojęcie srebrnego poligonu (*sliver polygon*) odnosi się do małego, wąskiego
+Pojęcie poligonu szczątkowego (*sliver polygon*) odnosi się do małego, wąskiego
 i często niezamierzonego wielokąta, który powstaje w wyniku przetwarzania
 danych przestrzennych, np. podczas operacji przecięcia, łączenia lub
 przycinania warstw wektorowych.
@@ -401,13 +401,13 @@ plot(result, col = "red", axes = FALSE, mar = 0)
 
 ## Konsekwencje
 
-- Błędne obliczenia powierzchni i obwodów
-- Błędy topologiczne
-- Negatywne efekty wizualne
+- Błędne obliczenia powierzchni i obwodów.
+- Błędy topologiczne.
+- Negatywne efekty wizualne.
 
 ## Rozwiązania
 
-1. Kontrola i czyszczenie danych wejściowych
-2. Generalizacja danych wejściowych (uproszczenie geometrii)
-3. Ustawienia wartości tolerancji podczas operacji
-4. Post-processing (usuwanie poligonów na podstawie wartości progowej)
+1. Kontrola i czyszczenie danych wejściowych.
+2. Generalizacja danych wejściowych (uproszczenie geometrii).
+3. Ustawienia wartości tolerancji podczas operacji.
+4. Post-processing (usuwanie poligonów na podstawie wartości progowej).
