@@ -43,7 +43,7 @@ uwzględniając obszary chronione i aktualną infrastrukturę.
 - Analiza rynku, np. powiązanie lokalizacji klientów z danymi demograficznymi
 w celu ukierunkowania sprzedaży do określonej grupy.
 
-## Przykład
+## Przykład 1
 
 ```{r}
 url = "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_1_states_provinces.zip"
@@ -56,7 +56,9 @@ url = paste0("/vsizip/vsicurl/", url)
 rzeki = vect(url)
 ```
 
+::: {style="font-size: 90%;"}
 Wyodrębnienie tylko tych rzek, które przepływają przez wielkopolskę.
+:::
 
 :::: {.columns}
 
@@ -69,7 +71,7 @@ plot(rzeki, col = "blue", add = TRUE)
 
 ::: {.column width="50%"}
 ```{r}
-wynik = intersect(admin[admin$name_alt == "Wielkopolskie"], rzeki)
+wynik = crop(rzeki, admin[admin$name_alt == "Wielkopolskie"])
 plot(admin, mar = c(1.2, 0, 0, 0))
 plot(wynik, col = "blue", lwd = 3, add = TRUE)
 ```
@@ -78,7 +80,109 @@ plot(wynik, col = "blue", lwd = 3, add = TRUE)
 ::::
 
 ```
-intersect(admin[admin$woj == "Wielkopolskie"], rzeki)
+crop(rzeki, admin[admin$name_alt == "Wielkopolskie"])
+```
+
+## Przykład 2
+
+::: {style="font-size: 90%;"}
+Szacowanie potencjalnej powierzchni działek objętych zalaniem.
+:::
+
+```{r}
+coords_1 = matrix(c(0,0, 50,0, 50,100, 0,100, 0,0), ncol = 2, byrow = TRUE)
+poly_1 = vect(coords_1, type = "polygons", crs = "local")
+
+coords_2 = matrix(c(50,0, 70,0, 70,100, 50,100, 50,0), ncol = 2, byrow = TRUE)
+poly_2 = vect(coords_2, type = "polygons", crs = "local")
+
+parcels = rbind(poly_1, poly_2)
+
+values(parcels) = data.frame(
+  ID = c("101", "102"),
+  Klasa = c("Przemysłowa", "Mieszkalna"),
+  Pow_m2 = expanse(parcels)
+)
+
+coords_3 = matrix(c(25,0, 70,0, 70,100, 25,100, 25,0), ncol = 2, byrow = TRUE)
+flood = vect(coords_3, type = "polygons", crs = "local")
+
+values(flood) = data.frame(Ryzyko = "Wysokie")
+
+result = intersect(parcels, flood)
+result$Pow_Zal_m2 = expanse(result)
+result$Proc = result$Pow_Zal_m2 / result$Pow_m2 * 100
+result$Proc = paste0(result$Proc, "%")
+```
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+plot(parcels, col = c("green3", "green4"), main = "Działki", axes = FALSE,
+     lwd = 2, mar = c(0, 0, 1.5, 0))
+text(parcels, "ID", cex = 2)
+```
+
+```
+#>    ID       Klasa Pow_m2
+#> 1 101 Przemysłowa   5000
+#> 2 102  Mieszkalna   2000
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+plot(parcels, main = "Zasięg powodzi", axes = FALSE, lwd = 2,
+     mar = c(0, 0, 1.5, 0))
+plot(flood, col = rgb(0, 0, 1, 0.4), add = TRUE, lty = 0)
+text(parcels, "ID", cex = 2)
+```
+
+```
+#>    Ryzyko
+#> 1 Wysokie
+```
+
+:::
+::::
+
+## Przykład 2
+
+::: {style="font-size: 90%;"}
+Szacowanie potencjalnej powierzchni działek objętych zalaniem.
+:::
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+plot(parcels, col = c("green3", "green4"), main = "Działki", axes = FALSE,
+     lwd = 2, mar = c(0, 0, 1.5, 0))
+text(parcels, "ID", cex = 2)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+plot(parcels, main = "Zasięg powodzi", axes = FALSE, lty = 2,
+     mar = c(0, 0, 1.5, 0))
+plot(result, col = rgb(0, 0, 1, 0.4), add = TRUE, lwd = 2)
+text(result, "Proc", cex = 2)
+```
+:::
+
+::::
+
+```r
+result = intersect(parcels, flood) # część wspólna
+result$Pow_Zal_m2 = expanse(result)
+result$Proc = result$Pow_Zal_m2 / result$Pow_m2 * 100
+
+print(result)
+#>    ID       Klasa Pow_m2  Ryzyko Pow_Zal_m2  Proc
+#> 1 101 Przemysłowa   5000 Wysokie       2500   50%
+#> 2 102  Mieszkalna   2000 Wysokie       2000  100%
 ```
 
 ## Algorytmy
@@ -120,6 +224,7 @@ plot(p2, col = "green", alpha = 0.8, add = TRUE)
 result = erase(p1, p2)
 plot(result, xlim = c(0, 15), ylim = c(-10, 10), col = "blue", axes = FALSE,
      mar = 0)
+plot(p2, add = TRUE, lty = 2)
 ```
 :::
 
@@ -354,6 +459,54 @@ plot(result, add = TRUE, cex = 2)
 :::
 
 ::::
+
+## Implementacje
+
+::: {.nonincremental}
+- [QGIS](https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectoroverlay.html)
+- [ArcGIS](https://pro.arcgis.com/en/pro-app/latest/tool-reference/analysis/an-overview-of-the-overlay-toolset.htm)
+- [GRASS GIS](https://grass.osgeo.org/grass-stable/manuals/v.overlay.html)
+- [PostGIS](https://postgis.net/docs/reference.html#Overlay_Functions)
+:::
+
+## Problem analityczny
+
+**Znalezienie gruntów pod zabudowę mieszkalną**
+
+Miasto poszukuje wolnych działek powyżej 5 ha przeznaczonych pod zabudowę
+mieszkalną. Działki nie mogą znajdować się na terenach zalewowych.
+
+\
+
+::: {.fragment}
+**Jakie dane wejściowe są niezbędne?**
+:::
+
+::: {.fragment}
+**Jak wykonać tę analizę?**
+:::
+
+## Problem analityczny
+
+::: {style="font-size: 80%;"}
+**Dane wejściowe:**
+
+- Warstwa z działkami.
+- Plan zagospodarowania przestrzennego.
+- Strefy zagrożenia powodziowego.
+
+**Kroki do wykonania:**
+
+1. Wyznaczenie niezabudowanych działek na podstawie atrybutu.
+2. Obliczenie powierzchni działek i ich selekcja.
+3. Docięcie działek zgodnie z założoną strefą mieszkalną.
+4. Usunięcie obszarów wewnątrz terenów zalewowych.
+
+::: {.fragment}
+*Pamiętaj, że warstwy muszą mieć ten sam układ współrzędnych!*
+:::
+
+:::
 
 ## Poligony szczątkowe {.center style="text-align: center;"}
 
