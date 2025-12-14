@@ -14,42 +14,67 @@ css: _style.css
 library("terra")
 ```
 
+## Relacja
+
+Relacja jest to stosunek lub zależność pomiędzy dwoma bądź większą liczbą
+elementów (np. przedmioty, osoby, pojęcia, obiekty).
+
+```{mermaid}
+%%| fig-align: center
+graph LR
+    A --> B
+    
+    classDef box font-size:50px;
+    class A,B box
+```
+
 ## Relacja przestrzenna
 
-Relacja przestrzenna określa sposób w jaki obiekty są ze sobą powiązane
-pod względem lokalizacji, odległości i interakcji w przestrzeni. Relacje te
-opisują wzajemne zależności pomiędzy obiektami.
+Relacja przestrzenna określa sposób, w jaki obiekty są ze sobą powiązane
+pod względem lokalizacji, odległości i interakcji w przestrzeni.
+
+```{r}
+#| fig-align: center
+
+coords = matrix(c(0,0,  15,0,  50,0), ncol = 2, byrow = TRUE)
+pts = vect(coords, type = "points", crs = "local")
+b = buffer(pts, width = 10)
+c = adjustcolor(c("red", "blue", "green"), alpha.f = 0.5)
+plot(b, col = c)
+```
 
 ## Rodzaje relacji przestrzennych
 
 - Topologiczne -- opisują zależności pomiędzy obiektami, np. przyleganie
-do siebie dwóch działek katastralnych
+do siebie dwóch działek katastralnych.
 - Odległościowe -- opisują odległość między obiektami, np. odległość
-między dwoma miastami czy lokalizacja najbliższego szpitala
+między dwoma miastami czy lokalizacja najbliższego szpitala.
 - Wzorce i rozkład przestrzenny -- opisują rozmieszczenie obiektów w przestrzeni
 (tj. czy są skupione, równomiernie rozłożone lub rozproszone losowo), np.
-rozmieszczenie szkół w mieście
+rozmieszczenie szkół w mieście.
 
 ## Zastosowania
 
 ::: {style="font-size: 90%;"}
 - Zapytania przestrzenne -- wybieranie obiektów na podstawie ich relacji
 przestrzennej z innymi obiektami, np. wybierz wszystkie budynki, które
-znajdują się w strefie 1 km od centrum miasta
+znajdują się w strefie 1 km od centrum miasta.
 - Analiza przestrzenna -- modelowanie zjawisk w kontekście geograficznym, np.
 wyznaczenie obszaru, który dotknięty jest przez negatywny czynnik (mapa
-zanieczyszczeń)
+zanieczyszczeń).
 - Połączenia przestrzenne tabel -- obiekty dopasowywane są na podstawie
-określonej relacji topologicznej, a nie klucza (ID) w tabeli
+określonej relacji topologicznej, a nie klucza (ID) w tabeli.
 :::
+
+## Relacje topologiczne {.center style="text-align: center;"}
 
 ## Predykaty
 
 **Predykat** (*predicate*) to:
 
-- wyrażenie opisujące pewne właściwości lub relacje
-- funkcja orzekająca o spełnieniu jakiegoś warunku (sprawdza go i zwraca
-prawdę bądź fałsz)
+- Wyrażenie opisujące pewne właściwości lub relacje.
+- Funkcja orzekająca o spełnieniu jakiegoś warunku (sprawdza go i zwraca
+prawdę bądź fałsz).
 
 \
 
@@ -67,10 +92,10 @@ opisujące relacje topologiczną między obiektami w przestrzeni.
 **Przykłady:**
 :::
 
-- Obiekt A przechodzi przez obiekt B
-- Obiekt A jest całkowicie zawarty w obiekcie B
-- Obiekt A całkowicie zawiera obiekt B
-- Obiekty A i B nie przecinają się ani nie są styczne
+- Obiekt A przechodzi przez obiekt B.
+- Obiekt A jest całkowicie zawarty w obiekcie B.
+- Obiekt A całkowicie zawiera obiekt B.
+- Obiekty A i B nie przecinają się ani nie są styczne.
 
 ##
 
@@ -89,16 +114,16 @@ text(p)
 ## Predykaty przestrzenne
 
 ::: {style="font-size: 85%;"}
-- Zawiera (*Contains*)
-- Przechodzi (*Crosses*)
-- Pokrywa (*Covers*)
-- Pokryty przez (*Coveredby*)
-- Rozłączny (*Disjoint*)
-- Równy (*Equals*)
-- Przecina (*Intersects*)
-- Nakłada (*Overlaps*)
-- Dotyka (*Touches*)
-- Wewnątrz (*Within*)
+- Zawiera (*Contains*).
+- Przechodzi (*Crosses*).
+- Pokrywa (*Covers*).
+- Pokryty przez (*Coveredby*).
+- Rozłączny (*Disjoint*).
+- Równy (*Equals*).
+- Przecina (*Intersects*).
+- Nakłada (*Overlaps*).
+- Dotyka (*Touches*).
+- Wewnątrz (*Within*).
 :::
 
 ## Zawiera
@@ -324,8 +349,6 @@ w tym:
 - [ArcGIS](https://developers.arcgis.com/documentation/spatial-analysis-services/geometry-analysis/spatial-relationship/)
 - [PostGIS](https://postgis.net/docs/using_postgis_query.html)
 
-## Model *DE-9IM* {.center style="text-align: center;"}
-
 ## Model DE-9IM
 
 Model DE-9IM (*Dimensionally Extended 9 Intersection Model*) to model
@@ -341,9 +364,9 @@ Model DE-9IM testuje przecięcia między wnętrzem, granicą i zewnętrzem
 dwóch geometrii definiowanych w następujący sposób:
 
 ::: {.nonincremental}
-- wnętrze (*Interior*) -- główna część obiektu (rdzeń)
-- granica (*Boundary*) -- krawędź obiektu
-- zewnętrze (*Exterior*) -- przestrzeń poza obiektem
+- wnętrze (*Interior*) -- główna część obiektu (rdzeń),
+- granica (*Boundary*) -- krawędź obiektu,
+- zewnętrze (*Exterior*) -- przestrzeń poza obiektem.
 :::
 
 **Uwaga!** W przypadku linii, granicą jest punkt początkowy oraz końcowy linii.
@@ -368,17 +391,17 @@ dwóch obiektów (A i B).
 Komórki macierzy mogą przyjmować następujące wartości:
 
 ::: {.nonincremental}
-- F -- przecięcie jest puste (fałsz, brak przecięcia)
-- T -- przecięcie nie jest puste (prawda)
-- `*` -- wymiar przecięcia nie ma znaczenia
+- F -- przecięcie jest puste (fałsz, brak przecięcia),
+- T -- przecięcie nie jest puste (prawda),
+- `*` -- wymiar przecięcia nie ma znaczenia.
 :::
 
 W przypadku wystąpienia przecięcia można uszczegółowić typ zwróconej geometrii:
 
 ::: {.nonincremental}
-- 0 -- przecięcie jest punktem (0-wymiarowe)
-- 1 -- przecięcie jest linią (1-wymiarowe)
-- 2 -- przecięcie jest poligonem (2-wymiarowe)
+- 0 -- przecięcie jest punktem (0-wymiarowe),
+- 1 -- przecięcie jest linią (1-wymiarowe),
+- 2 -- przecięcie jest poligonem (2-wymiarowe).
 :::
 :::
 
@@ -406,17 +429,154 @@ komórce w macierzy, czytany od lewej do prawej, od góry do dołu. Na przykład
 ::: {.column width="50%"}
 **Predykat przestrzenny:**
 
-- sprawdza czy zachodzi dana relacja
-- zwraca wartość logiczną
-- jest prosty w interpretacji
+- sprawdza czy zachodzi dana relacja,
+- zwraca wartość logiczną,
+- jest prosty w interpretacji.
 :::
 
 ::: {.column width="50%"}
 **Model DE-9IM:**
 
-- szczegółowa analiza topologiczna
-- zwraca macierz 9-komórkową
-- jest bardziej złożony i trudniejszy w interpretacji
+- szczegółowa analiza topologiczna,
+- zwraca macierz 9-komórkową,
+- jest bardziej złożony i trudniejszy w interpretacji.
 :::
 
 ::::
+
+## Relacje odległościowe {.center style="text-align: center;"}
+
+## Rodzaje pomiarów odległości
+
+::: {style="font-size: 80%;"}
+- Odległość euklidesowa -- liczona przy użyciu twierdzenia Pitagorasa w układzie
+planarnym. Wykorzystywana jest dla małych obszarów.
+- Odległość sferyczna -- najkrótsza odległość między dwoma punktami na powierzchni
+sfery. Niezbędna do analizy w skali globalnej lub pomiarów na dużych odległościach,
+gdzie krzywizna Ziemi powoduje znaczne zniekształcenia.
+- Odległość sieciowa -- mierzona wzdłuż rzeczywistych sieci takich jak drogi czy
+rzeki. Uwzględnia rzeczywiste ograniczenia, np. ulice jednokierunkowe bądź
+zamknięte.
+- Odległość ważona (*cost distance*) -- mierzona z uwzględnieniem kosztu, np.
+czas, energia, pieniądze. Do obliczeń wykorzystywany jest raster, w którym
+każda komórka ma przypisany koszt ruchu. Docelowym wynikiem jest najniższy
+całkowity koszt, a nie najmniejsza odległość.
+:::
+
+## Przykład
+
+```{r}
+set.seed(123)
+n = 10
+df = data.frame(x = runif(n), y = runif(n)) * 1000
+pts = vect(df, geom = c("x", "y"), crs = "local")
+pt = vect(matrix(c(500, 500), ncol = 2, byrow = TRUE), crs = "local")
+```
+
+```{r}
+#| fig-align: center
+
+plot(pts, xlim = c(0, 1000), ylim = c(0, 1000), cex = 1.5,
+     main = "Szkoły w mieście")
+plot(pt, add = TRUE, col = "red", cex = 2)
+```
+
+**1. Znajdź wszystkie szkoły w odległości 300 m.**
+
+**2. Znajdź najbliższą szkołę.**
+
+##
+
+**Znajdź wszystkie szkoły w odległości 300 m**
+
+```{r}
+b = buffer(pt, 300)
+cr = crop(pts, b)
+```
+
+```{r}
+plot(pts, xlim = c(0, 1000), ylim = c(0, 1000), cex = 1.5, col = "grey",
+     main = "Szkoły w mieście")
+plot(cr, add = TRUE, col = "blue", cex = 1.5)
+plot(pt, add = TRUE, col = "red", cex = 2)
+plot(b, add = TRUE, lty = 2, lwd = 2)
+```
+
+::: {style="text-align: center;"}
+Bufor + docięcie
+:::
+
+##
+
+**Znajdź najbliższą szkołę**
+
+```{r}
+pt_mat = crds(pt)[rep(1, 10), ]
+pts_mat = crds(pts)
+mat = cbind(pt_mat[, 1], pts_mat[, 1], pt_mat[, 2], pts_mat[, 2])
+
+l = as.lines(mat, crs = "local")
+l$dist = perim(l)
+```
+
+```{r}
+plot(pts, xlim = c(0, 1000), ylim = c(0, 1000), cex = 1.5,
+     main = "Szkoły w mieście")
+plot(l, add = TRUE)
+plot(l[9], add = TRUE, col = "blue", lwd = 2)
+plot(pt, add = TRUE, col = "red", cex = 2)
+plot(pts[9], add = TRUE, col = "blue", cex = 1.5)
+```
+
+::: {style="text-align: center;"}
+Odległość + sortowanie + selekcja indeksu
+:::
+
+## Odległość ważona
+
+```{r}
+# mapa odleglosci
+r = rast(pts, nrows = 100, ncols = 100, vals = 0, extent = ext(c(0, 1000, 0, 1000)))
+d = distance(r, pt)
+```
+
+```{r}
+# mapa kosztow
+set.seed(123)
+friction = r
+values(friction) = runif(ncell(friction))
+mask = rowFromCell(friction, 1:ncell(friction)) %in% 51:70
+friction[mask] = 5
+```
+
+```{r}
+# odleglosc wazona
+friction[50, 50] = 999
+cost_dist = costDist(friction, target = 999)
+```
+
+```{r}
+idx = which.min(extract(cost_dist, pts)$lyr.1)
+l = as.lines(rbind(pt, pts[idx]))
+```
+
+```{r}
+par(mfrow = c(1, 3))
+
+plot(d, main = "Mapa odległości")
+plot(pt, add = TRUE, col = "red", cex = 1.6)
+plot(pts, add = TRUE, cex = 1.6)
+
+friction[50, 50] = NA
+colors = gray.colors(n = 100, rev = TRUE, start = 0)
+plot(friction, main = "Mapa kosztów", col = colors)
+plot(pt, add = TRUE, col = "red", cex = 1.6)
+
+plot(cost_dist, main = "Odległość ważona")
+plot(l, add = TRUE, col = "blue", lwd = 2)
+plot(pt, add = TRUE, col = "red", cex = 1.6)
+plot(pts, add = TRUE, cex = 1.6)
+plot(pts[idx], add = TRUE, col = "blue", cex = 1.6)
+```
+
+## Wzorce przestrzenne {.center style="text-align: center;"}
