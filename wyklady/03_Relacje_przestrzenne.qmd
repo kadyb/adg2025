@@ -26,6 +26,7 @@ graph LR
     
     classDef box font-size:50px;
     class A,B box
+    linkStyle default stroke-width:3px
 ```
 
 ## Relacja przestrzenna
@@ -342,12 +343,14 @@ text(x = 2.6, y = 7.5, labels = "P2")
 Predykaty przestrzenne są implementowane w różnym oprogramowaniu geoinformacyjnym,
 w tym:
 
+::: {.nonincremental}
 - [GEOS](https://libgeos.org/doxygen/classgeos_1_1geom_1_1Geometry.html) (QGIS, Grass GIS, terra, sf, shapely)
 - [JTS Topology Suite](https://locationtech.github.io/jts/jts-features.html)
 - [Boost.Geometry](https://beta.boost.org/doc/libs/1_82_0/libs/geometry/doc/html/geometry/reference/spatial_indexes/group__predicates.html)
 - [S2](http://s2geometry.io/about/overview)
 - [ArcGIS](https://developers.arcgis.com/documentation/spatial-analysis-services/geometry-analysis/spatial-relationship/)
 - [PostGIS](https://postgis.net/docs/using_postgis_query.html)
+:::
 
 ## Model DE-9IM
 
@@ -517,15 +520,16 @@ mat = cbind(pt_mat[, 1], pts_mat[, 1], pt_mat[, 2], pts_mat[, 2])
 
 l = as.lines(mat, crs = "local")
 l$dist = perim(l)
+idx = which.min(l$dist)
 ```
 
 ```{r}
-plot(pts, xlim = c(0, 1000), ylim = c(0, 1000), cex = 1.5,
+plot(pts, xlim = c(0, 1000), ylim = c(0, 1000), cex = 1.5, col = "grey",
      main = "Szkoły w mieście")
-plot(l, add = TRUE)
-plot(l[9], add = TRUE, col = "blue", lwd = 2)
+plot(l, col = "grey", add = TRUE)
+plot(l[idx], add = TRUE, col = "blue", lwd = 2)
 plot(pt, add = TRUE, col = "red", cex = 2)
-plot(pts[9], add = TRUE, col = "blue", cex = 1.5)
+plot(pts[idx], add = TRUE, col = "blue", cex = 1.5)
 ```
 
 ::: {style="text-align: center;"}
@@ -575,8 +579,108 @@ plot(pt, add = TRUE, col = "red", cex = 1.6)
 plot(cost_dist, main = "Odległość ważona")
 plot(l, add = TRUE, col = "blue", lwd = 2)
 plot(pt, add = TRUE, col = "red", cex = 1.6)
-plot(pts, add = TRUE, cex = 1.6)
+plot(pts, add = TRUE, col = "grey", cex = 1.6)
 plot(pts[idx], add = TRUE, col = "blue", cex = 1.6)
 ```
 
 ## Wzorce przestrzenne {.center style="text-align: center;"}
+
+## Prawo Toblera
+
+Pierwsze prawo geografii według Waldo Toblera (1970):
+
+"*Wszystko jest ze sobą powiązane, ale rzeczy bliskie są ze sobą bardziej
+powiązane niż rzeczy odległe.*"
+
+\
+
+To prawo stanowi podstawę niemal wszystkich analiz przestrzennych, ponieważ
+większość zjawisk geograficznych wykazuje dodatnią autokorelację
+przestrzenną.
+
+Analiza wzorców przestrzennych pozwala na ujawnienie kształtujących ich procesów.
+
+## Rodzaje wzorców przestrzennych
+
+- Skupione -- obiekty są zgrupowane w określonych obszarach, np. przypadki
+zachorowań wokół źródła skażenia.
+- Regularne -- obiekty są rozmieszczone równomiernie na całym obszarze,
+np. zasadzone drzewa w sadzie.
+- Losowe -- obiekty są rozmieszczone niezależnie (nie ma zależności pomiędzy
+ich występowaniem), np. uderzenia piorunów.
+
+## Rozmieszczenie
+
+```{r}
+set.seed(123)
+e = as.polygons(ext(0, 100, 0, 100), crs = "local")
+
+# regular
+rgl = spatSample(e, size = 100, method = "regular")
+
+# random
+rand = spatSample(e, size = 100, method = "random")
+
+# clustered
+idx = c(7, 41, 88)
+b = buffer(rgl[idx], width = c(5, 9, 7))
+clus = spatSample(b, size = 70, method = "random")
+```
+
+```{r}
+par(mfrow = c(1, 3))
+
+plot(clus, xlim = c(0, 100), ylim = c(0, 100), main = "Skupione")
+plot(rgl, xlim = c(0, 100), ylim = c(0, 100), main = "Regularne")
+plot(rand, xlim = c(0, 100), ylim = c(0, 100), main = "Losowe")
+```
+
+## Metody
+
+::: {style="font-size: 80%;"}
+1. Inspekcja wizualna:
+
+   - Mapa punktowa,
+   - Mapa ciepła,
+   - Kartogram.
+
+2. Metody statystyczne:
+
+   - Autokorelacja przestrzenna (np. *I Morana*, *C Geary'ego*),
+   - Jądrowy estymator gęstości (*kernel density estimation*),
+   - Interpolacja przestrzenna (np. kriging).
+:::
+
+::: {.fragment}
+
+```{mermaid}
+%%| fig-align: center
+graph LR
+    A[Inspekcja wizualna] --> B[Metody statystyczne]
+    
+    classDef box font-size:24px;
+    class A,B box
+```
+
+:::
+
+## Mapa ciepła
+
+```{r}
+set.seed(123)
+rand = spatSample(e, size = 2000, method = "random")
+tmp = rast(e, crs = "local", nrows = 50, ncols = 50)
+r = rasterize(rand, tmp, fun = "length", background = 0)
+# gf = focalMat(r, d = 2, type = "Gauss")
+heatmap = focal(r, w = 3, fun = "mean", expand = TRUE)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+
+colors = hcl.colors(50, "YlOrRd", rev = TRUE)
+mar = c(2, 2, 2, 4)
+plot(rand, mar = mar, alpha = 0.5)
+plot(heatmap, legend = FALSE, mar = mar, col = colors)
+plot(heatmap, legend.only = TRUE, col = colors)
+```
