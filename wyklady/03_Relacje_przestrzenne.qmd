@@ -666,6 +666,27 @@ graph LR
 
 ## Mapa ciepła
 
+::: {style="font-size: 80%;"}
+Mapa ciepła (*heat map*) to technika wizualizacji, która przedstawia gęstość
+lub intensywność danych punktowych na określonym obszarze. Ma postać rastra o
+ciągłej wygładzonej powierzchni, a gradient kolorów pokazuje, gdzie obiekty są
+bardziej lub mniej skoncentrowane.
+:::
+
+::: {style="font-size: 70%;"}
+**Przykładowa procedura:**
+
+1. Rasteryzacja punktów:
+   - Przygotowanie szablonu rastra o określonej rozdzielczości.
+   - Funkcja agregująca: suma.
+2. Reklasyfikacja pustych wartości *NA* na 0.
+3. Wygładzanie rastra używając statystyk ogniskowych:
+   - Suma lub średnia.
+   - Filtr Gaussa.
+:::
+
+## Mapa ciepła
+
 ```{r}
 set.seed(123)
 rand = spatSample(e, size = 2000, method = "random")
