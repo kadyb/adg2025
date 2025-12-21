@@ -2245,11 +2245,11 @@ CRS: EPSG:2180</code></pre>
 <p>Wartości rastra można wczytać na dwa sposoby – definiując punkt (<code>QgsPointXY</code>) lub blok (<code>QgsRectangle</code>). W drugim przypadku, jeśli wskażemy wszystkie kolumny oraz wiersze, wtedy do pamięci zostanie wczytany cały raster.</p>
 <section id="punkt" class="level2">
 <h2 class="anchored" data-anchor-id="punkt">Punkt</h2>
-<p>W pierwszym kroku należy utworzyć obiekt <code>QgsPointXY</code> reprezentujący punkt, dla którego zostanie pozyskana wartość komórki. Konieczne jest określenie współrzędnych X i Y punktu w układzie odniesienia warstwy rastrowej, tj. układ punkt oraz rastra muszą być identyczne! Następnie należy wykorzystać metodę <code>sample()</code> z <code>dataProvider()</code> i wskazać punkt oraz indeks kanału zaczynający się od 1. W przypadku gdy punkt znajduje się poza zasięgiem warstwy lub podano nieprawidłowy indeks kanału, to zostanie zwrócona wartość <code>NaN</code>. Dla większej liczby kanałów i/lub punktów należy zastosować pętlę.</p>
+<p>W pierwszym kroku należy utworzyć obiekt <code>QgsPointXY</code> reprezentujący punkt, dla którego zostanie pozyskana wartość komórki. Konieczne jest określenie długości (X) oraz szerokości (Y) geograficznej punktu w układzie odniesienia warstwy rastrowej, tj. układ punktu oraz rastra muszą być identyczne! Następnie należy wykorzystać metodę <code>sample()</code> z klasy <a href="https://qgis.org/pyqgis/latest/core/QgsRasterDataProvider.html">QgsRasterDataProvider</a> i wskazać punkt oraz indeks kanału zaczynający się od 1. W przypadku gdy punkt znajduje się poza zasięgiem warstwy lub podano nieprawidłowy indeks kanału, to zostanie zwrócona wartość <code>NaN</code>. Dla większej liczby kanałów i/lub punktów należy zastosować pętlę.</p>
 <div id="741eb3c8" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qgis.core <span class="im">import</span> QgsPointXY</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>point <span class="op">=</span> QgsPointXY(<span class="dv">389900</span>, <span class="dv">507600</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>point <span class="op">=</span> QgsPointXY(<span class="dv">389900</span>, <span class="dv">507600</span>) <span class="co"># długość, szerokość</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>value <span class="op">=</span> raster.dataProvider().sample(point, <span class="dv">1</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(value)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
@@ -2265,7 +2265,7 @@ CRS: EPSG:2180</code></pre>
 </section>
 <section id="blok" class="level2">
 <h2 class="anchored" data-anchor-id="blok">Blok</h2>
-<p>Zamiast pojedynczego punktu możemy wykorzystać blok, który umożliwi pozyskanie wartości z zakresu prostokąta zdefiniowanego przez <code>QgsRectangle</code>. Do jego utworzenia niezbędne jest określenie minimalnych i maksymalnych współrzędnych (cztery wartości). Następnie użyjemy metodę <code>block()</code> również z <code>dataProvider()</code>, która wymaga wskazania:</p>
+<p>Zamiast pojedynczego punktu możemy wykorzystać blok, który umożliwi pozyskanie wartości z zakresu prostokąta zdefiniowanego przez <code>QgsRectangle</code>. Do jego utworzenia niezbędne jest określenie minimalnych i maksymalnych współrzędnych (cztery wartości). Następnie użyjemy metodę <code>block()</code> również z klasy <code>QgsRasterDataProvider</code>, która wymaga wskazania:</p>
 <ul>
 <li>indeksu kanału,</li>
 <li>obiektu <code>QgsRectangle</code>,</li>
@@ -2582,7 +2582,7 @@ Liczba komórek: 7268</code></pre>
 <section id="zadania" class="level1">
 <h1>Zadania</h1>
 <ol start="10" type="1">
-<li>W katalogu <code>landsat</code> znajdziesz kanał panchromatyczny (B08) w rozdzielczości 15 m oraz kompozycję RGB w rozdzielczości 30 m. Napisz funkcję służącą do pansharpeningu, tj. zwiększenia rozdzielczości przestrzennej kanałów spektralnych na podstawie kanału panchromatycznego. Do obliczeń wykorzystaj średnią arytmetyczną: <code>wynik = (kanał + kanał panchromatyczny) / 2</code>. Wynik operacji zapisz na dysku jako jeden raster składający się z trzech kanałów w wyższej rozdzielczości w formacie <code>.tif</code>. Dla chętnych można zaimplementować inną wybraną metodę pansharpeningu, np. <a href="https://grass.osgeo.org/grass-stable/manuals/i.pansharpen.html#description">Brovey’a</a>.</li>
+<li>W katalogu <code>landsat</code> znajdziesz kanał panchromatyczny (B08) w rozdzielczości 15 m oraz kompozycję RGB w rozdzielczości 30 m. Napisz funkcję służącą do pansharpeningu, tj. zwiększenia rozdzielczości przestrzennej kanałów spektralnych na podstawie kanału panchromatycznego. Do obliczeń wykorzystaj średnią arytmetyczną: <code>wynik = (kanał + kanał panchromatyczny) / 2</code>. Wynik operacji zapisz na dysku jako jeden raster składający się z trzech kanałów w wyższej rozdzielczości w formacie <code>.tif</code>. Wyniki pośrednie zapisz jako pliki tymczasowe używając modułu <a href="https://docs.python.org/3/library/tempfile.html">tempfile</a>. Dla chętnych można zaimplementować inną wybraną metodę pansharpeningu, np. <a href="https://grass.osgeo.org/grass-stable/manuals/i.pansharpen.html#description">Brovey’a</a>.</li>
 </ol>
 </section>
 
