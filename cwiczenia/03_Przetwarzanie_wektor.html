@@ -2273,7 +2273,7 @@ vertical-align: -.125em;
 <p>Dodawanie atrybutów do warstwy wektorowej obejmuje modyfikację tabeli atrybutów poprzez dodanie nowych atrybutów i opcjonalnie ich wypełnienie. Operacja składa się z kilku kroków:</p>
 <ol type="1">
 <li>Na początku należy włączyć tryb edycji warstwy <code>startEditing()</code>, aby ją zmodyfikować.</li>
-<li>Kolejny krok to zdefiniowanie nowego atrybutu wykorzystując klasę <code>QgsField</code>. Każdy atrybut posiada nazwę, typ danych i opcjonalne ograniczenia (długość, precyzja). Zdefiniowanie kilku atrybutów wymaga przekazanie ich jako listy. Następnie należy użyć metod <code>addAttributes()</code> oraz <code>updateFields()</code>, aby dodać nowe pole do tabeli atrybutów i ją zaktualizować.</li>
+<li>Kolejny krok to zdefiniowanie nowego atrybutu wykorzystując klasę <code>QgsField</code>. Każdy atrybut posiada nazwę, typ danych i opcjonalne ograniczenia (długość, precyzja). Następnie należy użyć metod <code>addAttribute()</code> oraz <code>updateFields()</code>, aby dodać nowe pole do tabeli atrybutów i ją zaktualizować. Zdefiniowanie kilku atrybutów wymaga przekazanie ich jako listy i dodanie w pętli.</li>
 <li>Jeśli chcemy uzupełnić nowo utworzony atrybut, to musimy zastosować pętle po obiektach i zaktualizować wartość wybranego atrybutu używając metody <code>changeAttributeValue()</code>, w której kolejno określimy ID obiektu, indeks atrybutu oraz wartość.</li>
 <li>W ostatnim kroku należy zatwierdzić i zapisać wprowadzone zmiany używając <code>commitChanges()</code>.</li>
 </ol>
@@ -2286,8 +2286,8 @@ vertical-align: -.125em;
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>vector.startEditing()</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) dodanie nowego atrybutu do tabeli</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>new_field <span class="op">=</span> [QgsField(<span class="st">&quot;pole_km2&quot;</span>, QMetaType.Type.Double)]</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>vector.dataProvider().addAttributes(new_field)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>new_field <span class="op">=</span> QgsField(<span class="st">&quot;pole_km2&quot;</span>, QMetaType.Type.Double)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>vector.addAttribute(new_field)</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>vector.updateFields()</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># indeks nowego atrybutu</span></span>
