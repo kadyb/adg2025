@@ -2414,18 +2414,17 @@ vertical-align: -.125em;
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># dodanie atrybutów do warstwy</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>provider <span class="op">=</span> newlayer.dataProvider()</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>provider.addAttributes(fields)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> field <span class="kw">in</span> fields:</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    newlayer.addAttribute(field)</span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>newlayer.updateFields()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>W kolejnym kroku możemy stworzyć obiekty (klasa <a href="https://qgis.org/pyqgis/master/core/QgsFeature.html">QgsFeature</a>), które składają się z geometrii oraz atrybutów. W poniższym przykładzie użyjemy wcześniej zdefiniowanego prostokąta <code>rect</code> – najpierw zmienimy jego geometrię na reprezentację WKT (metoda <code>asWkt()</code>), a następnie stworzymy z niego poligon (metoda <code>fromWkt()</code>).</p>
+<p>W kolejnym kroku możemy stworzyć obiekty (klasa <a href="https://qgis.org/pyqgis/master/core/QgsFeature.html">QgsFeature</a>), które składają się z geometrii oraz atrybutów. W poniższym przykładzie użyjemy wcześniej zdefiniowanego prostokąta <code>rect</code> i metody <code>fromRect()</code>.</p>
 <div id="03cb6a8a" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qgis.core <span class="im">import</span> QgsFeature, QgsGeometry</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># stworzenie obiektów</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>feature <span class="op">=</span> QgsFeature()</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>polygon_wkt <span class="op">=</span> QgsGeometry.fromRect(rect).asWkt()</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>polygon_geometry <span class="op">=</span> QgsGeometry.fromWkt(polygon_wkt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>polygon_geometry <span class="op">=</span> QgsGeometry.fromRect(rect)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Innym sposobem konstruowania geometrii obiektów używając współrzędnych jest pośrednie zastosowanie klasy <a href="https://qgis.org/pyqgis/master/core/QgsPointXY.html">QgsPointXY</a> i odpowiednich metod, np. <code>fromPointXY()</code> (do stworzenia punktów), <code>fromPolylineXY()</code> (do stworzenia linii) czy <code>fromPolygonXY()</code> (do stworzenia poligonów) z klasy <code>QgsGeometry</code>.</p>
 <p>Finalnie, nowemu obiektowi należy nadać geometrię (metoda <code>setGeometry()</code>) oraz przypisać atrybutom wartości (metoda <code>setAttributes()</code>), po czym wymagane jest dodanie obiektów do warstwy, aktualizacja zasięgu warstwy oraz zapisanie zmian.</p>
