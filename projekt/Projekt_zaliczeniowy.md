@@ -27,10 +27,11 @@ W zależności od zakresu wykonanych prac, można uzyskać maksymalnie następuj
 
 ### Ocena bardzo dobra
 
+- Wykonanie poprzednich poleceń.
 - Skopiowanie atrybutów tabeli z warstwy dostawcy do odbiorcy.
 - Wynikiem operacji będzie zaktualizowana warstwa `odbiorcy.gpkg`.
 - Kod należy przygotować w postaci skryptu przetwarzania QGIS.
 
 ## Termin
 
-Projekt zaliczeniowy proszę wysłać do 6 lutego 2025 r. (piątek) na GitHub Classroom.
+Projekt zaliczeniowy proszę wysłać do 6 lutego 2026 r. (piątek) na GitHub Classroom.
