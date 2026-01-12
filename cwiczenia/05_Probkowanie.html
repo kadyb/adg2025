@@ -2349,18 +2349,10 @@ Długość linii: 64.03124237432849</code></pre>
 <section id="zadania" class="level1">
 <h1>Zadania</h1>
 <ol start="11" type="1">
-<li><p><strong>Dla chętnych: Analiza geomorfometryczna.</strong> Dokonaj analizy ukształtowania terenu (plik <code>DEM.tif</code>) używając dwóch transektów północ-południe oraz wschód-zachód. Wynik zaprezentuj na rycinie (na osi X powinna znajdować się odległość wyrażona w metrach). Zastanów się również, co zrobić w przypadku, gdy komórki nie posiadają wartości (<em>nan</em>).</p></li>
-<li><p><strong>Dla chętnych: Analiza teledetekcyjna.</strong> Wygeneruj losową próbę i następnie dla dwóch wybranych kanałów spektralnych z Landsat 8/9:</p></li>
+<li><p>Napisz funkcję <code>sample_random(raster, n)</code>, która posłuży do losowego próbkowania rastra wielokanałowego. Jako wynik zostanie zwrócona macierz <em>numpy</em> składającą się ze współrzędnych X i Y punktów oraz wartości kanałów rastra. Nadaj kolumnom odpowiednie nazwy. Zastanów się również, co można zrobić w przypadku, gdy komórki nie posiadają wartości (<em>nan</em>).</p></li>
+<li><p>Napisz funkcję <code>sample_regular(layer, interval, save_path)</code>, która stworzy regularną siatkę punktów dla podanej warstwy wektorowej bądź rastrowej i określonego interwału (np. co 100 m). Jako wynik zostanie zapisana nowa warstwa wektorowa na dysku.</p></li>
+<li><p>Napisz funkcję <code>sample_strata(vector, n, save_path)</code> służącą do losowania stratyfikowanego, która zagwarantuje, że dla każdego poligonu zostanie zwrócona dokładna liczba punktów wskazana przez użytkownika, a wynik zostanie zapisany jako warstwa wektorowa. Do analizy wykorzystaj dane z pliku <code>powiaty.gpkg</code>.</p></li>
 </ol>
-<ul>
-<li><p>wykonaj wykres rozrzutu uwzględniając przezroczystość punktów oraz zaznacz linię <code>x = y</code>,</p></li>
-<li><p>oblicz statystyki opisowe z wartości różnic między tymi kanałami.</p>
-<p>Dodatkowo można obliczyć współczynnik korelacji Pearsona (<code>numpy.corrcoef()</code>).</p></li>
-</ul>
-<ol start="13" type="1">
-<li>Napisz funkcję <code>sample_strata(wektor, n)</code> służącą do losowania stratyfikowanego, która zagwarantuje, że dla każdego poligonu zostanie zwrócona dokładna liczba punktów wskazana przez użytkownika, a wynik zostanie zapisany jako warstwa wektorowa. Do analizy wykorzystaj dane z pliku <code>powiaty.gpkg</code>.</li>
-</ol>
-<p><strong>Na dzień 09.01.2026 r. zadanie 13 jest obowiązkowe, a zadania 11 i 12 zostaną zastąpione (niemniej, analizy można wykonać opcjonalnie).</strong></p>
 </section>
 
 </main>
