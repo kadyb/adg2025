@@ -617,5 +617,5 @@ plot(vect("POINT (50 40)"), col = "red", add = TRUE, cex = 1.4)
 - Usuwanie zduplikowanych wierzchołków.
 - Uzupełnienie dziur w poligonach.
 - Reprojekcje.
-- ...
+- ... i wiele innych (patrz m. in. dokumentacja [QGIS](https://docs.qgis.org/latest/en/docs/user_manual/processing_algs/qgis/vectorgeometry.html)).
 
