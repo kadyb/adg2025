@@ -28,7 +28,7 @@ W zależności od zakresu wykonanych prac, można uzyskać maksymalnie następuj
 ### Ocena bardzo dobra
 
 - Wykonanie poprzednich poleceń.
-- Skopiowanie atrybutów tabeli z warstwy dostawcy do odbiorcy.
+- Przypisanie odpowiednich wartości z tabeli atrybutów dostawcy do odbiorcy.
 - Wynikiem operacji będzie zaktualizowana warstwa `odbiorcy.gpkg`.
 - Kod należy przygotować w postaci skryptu przetwarzania QGIS.
 
